@@ -4,7 +4,7 @@ Proyecto de **Desarrollo de Software II** · Tecnología en Desarrollo de Softwa
 Universidad del Valle, Regional Zarzal · Docente: Gustavo Osorio
 Fecha: 20 de octubre de 2026
 
-**Lenguajes:** Java · HTML · CSS
+**Tecnologías:** Python (Flask) · HTML (plantillas Jinja2) · CSS · MySQL
 
 ---
 
@@ -133,7 +133,7 @@ Una historia de usuario se considera **terminada** solo si, además de cumplir s
 
 ### Criterios generales de calidad
 - [ ] El código está en una rama propia y se integra a `main` mediante Pull Request revisado por otro integrante.
-- [ ] El código compila y se ejecuta sin errores.
+- [ ] El código se ejecuta sin errores y las dependencias nuevas quedan en `requirements.txt`.
 - [ ] La funcionalidad fue probada manualmente por quien la desarrolló y por un revisor.
 
 ---
@@ -142,20 +142,20 @@ Una historia de usuario se considera **terminada** solo si, además de cumplir s
 
 | ID | Historia técnica | Criterios de aceptación |
 | --- | --- | --- |
-| HT-01 | Como equipo de desarrollo, queremos un repositorio en GitHub con una estructura de carpetas definida, para trabajar de forma ordenada. | • Existe `README.md`, `.gitignore` para Java y la carpeta `docs/`.<br>• Todos los integrantes tienen acceso como colaboradores.<br>• Se trabaja con ramas por historia (`feature/hu-xx-nombre`) y Pull Requests. |
-| HT-02 | Como equipo de desarrollo, queremos un proyecto Java configurado con su herramienta de build, para compilar y ejecutar la aplicación. | • El proyecto compila y arranca con un solo comando.<br>• Las dependencias están declaradas en el archivo de build.<br>• Cualquier integrante puede ejecutarlo siguiendo el README. |
+| HT-01 | Como equipo de desarrollo, queremos un repositorio en GitHub con una estructura de carpetas definida, para trabajar de forma ordenada. | • Existe `README.md`, `.gitignore` para Python y la carpeta `docs/`.<br>• Todos los integrantes tienen acceso como colaboradores.<br>• Se trabaja con ramas por historia (`feature/hu-xx-nombre`) y Pull Requests. |
+| HT-02 | Como equipo de desarrollo, queremos un proyecto Python con Flask y un entorno virtual, para ejecutar la aplicación de forma igual en todos los equipos. | • Las dependencias están listadas en `requirements.txt`.<br>• El entorno virtual (`venv`) no se sube a GitHub.<br>• La aplicación arranca con un solo comando (`flask run`).<br>• Cualquier integrante puede ejecutarla siguiendo el README. |
 | HT-03 | Como equipo de desarrollo, queremos un script SQL que cree la base de datos, para que todos tengan el mismo esquema. | • El script crea las 11 tablas con sus llaves primarias, foráneas, únicas y restricciones.<br>• Carga los 6 estados iniciales de `ESTADO_PEDIDO`.<br>• Incluye datos de prueba (categorías, productos, variantes y un administrador). |
-| HT-04 | Como sistema, quiero conectarme a la base de datos desde Java, para guardar y consultar la información. | • La conexión usa un archivo de configuración fuera del código.<br>• Las credenciales no se suben a GitHub.<br>• Todas las consultas son parametrizadas. |
-| HT-05 | Como sistema, quiero cifrar las contraseñas con hash y salt, para proteger las cuentas. | • Se usa un algoritmo seguro (por ejemplo, bcrypt).<br>• Nunca se guarda ni se registra una contraseña en texto plano. |
-| HT-06 | Como sistema, quiero manejar sesiones y roles, para controlar quién accede a cada página. | • La sesión se invalida al cerrar sesión y expira a los 30 minutos de inactividad.<br>• Las rutas privadas exigen sesión activa.<br>• Las rutas de administración exigen rol administrador. |
+| HT-04 | Como sistema, quiero conectarme a la base de datos MySQL desde Python, para guardar y consultar la información. | • Se usa un conector o ORM (por ejemplo, `mysql-connector-python` o SQLAlchemy).<br>• Las credenciales están en un archivo `.env` que no se sube a GitHub.<br>• Todas las consultas son parametrizadas. |
+| HT-05 | Como sistema, quiero cifrar las contraseñas con hash y salt, para proteger las cuentas. | • Se usa una librería segura (`bcrypt` o `werkzeug.security`).<br>• Nunca se guarda ni se registra una contraseña en texto plano. |
+| HT-06 | Como sistema, quiero manejar sesiones y roles, para controlar quién accede a cada página. | • Se usa la sesión de Flask con clave secreta.<br>• La sesión se invalida al cerrar sesión y expira a los 30 minutos de inactividad.<br>• Las rutas privadas exigen sesión activa (decoradores).<br>• Las rutas de administración exigen rol administrador. |
 | HT-07 | Como sistema, quiero bloquear temporalmente la cuenta tras 5 intentos fallidos, para evitar ataques de fuerza bruta. | • Se actualizan `intentos_fallidos` y `bloqueado_hasta` en `USUARIO`.<br>• Un inicio de sesión correcto reinicia el contador. |
-| HT-08 | Como sistema, quiero ejecutar la creación del pedido como una transacción, para que no queden datos a medias. | • Crear pedido, detalles, pago, historial, descuento de stock y vaciado del carrito ocurren juntos o no ocurren.<br>• Si falla cualquier paso, se revierte todo. |
-| HT-09 | Como sistema, quiero enviar correos electrónicos, para confirmar pedidos y restablecer contraseñas. | • Se configura un servicio de correo de pruebas.<br>• Los enlaces de restablecimiento caducan en 1 hora y son de un solo uso.<br>• Para guardar el token se agrega una tabla al modelo de datos. |
-| HT-10 | Como sistema, quiero una plantilla HTML y CSS base responsive, para que todas las páginas tengan el mismo diseño. | • Encabezado con catálogo, buscador, carrito y cuenta en todas las páginas.<br>• Se ve bien en celular, tablet y escritorio.<br>• Hay una hoja de estilos común con colores y tipografías definidos. |
-| HT-11 | Como sistema, quiero paginar y optimizar las consultas del catálogo, para cumplir los tiempos de carga. | • Las consultas usan paginación.<br>• Las columnas de búsqueda y filtro tienen índices.<br>• Las imágenes se cargan de forma diferida. |
-| HT-12 | Como sistema, quiero mostrar páginas de error amigables, para no exponer detalles técnicos. | • Existen páginas para error 404, 403 y 500.<br>• Los mensajes están en español y no muestran trazas de Java. |
-| HT-13 | Como equipo de desarrollo, queremos una copia de seguridad diaria de la base de datos, para no perder información. | • Hay un script de respaldo documentado.<br>• Se explica cómo restaurar una copia. |
-| HT-14 | Como equipo de desarrollo, queremos probar las reglas de negocio principales, para detectar errores a tiempo. | • Hay pruebas para stock, cálculo de totales, cancelación y cambio de estados.<br>• Las pruebas se ejecutan con un solo comando. |
+| HT-08 | Como sistema, quiero ejecutar la creación del pedido como una transacción, para que no queden datos a medias. | • Crear pedido, detalles, pago, historial, descuento de stock y vaciado del carrito ocurren juntos o no ocurren.<br>• Si falla cualquier paso, se hace `rollback`. |
+| HT-09 | Como sistema, quiero enviar correos electrónicos, para confirmar pedidos y restablecer contraseñas. | • Se usa `Flask-Mail` o `smtplib` con un servicio de correo de pruebas.<br>• Los enlaces de restablecimiento caducan en 1 hora y son de un solo uso.<br>• Para guardar el token se agrega una tabla al modelo de datos. |
+| HT-10 | Como sistema, quiero una plantilla HTML y CSS base responsive con Jinja2, para que todas las páginas tengan el mismo diseño. | • Existe una plantilla `base.html` de la que heredan las demás páginas.<br>• Encabezado con catálogo, buscador, carrito y cuenta en todas las páginas.<br>• Se ve bien en celular, tablet y escritorio.<br>• Hay una hoja de estilos común en la carpeta `static/`. |
+| HT-11 | Como sistema, quiero paginar y optimizar las consultas del catálogo, para cumplir los tiempos de carga. | • Las consultas usan paginación (`LIMIT` y `OFFSET`).<br>• Las columnas de búsqueda y filtro tienen índices.<br>• Las imágenes se cargan de forma diferida. |
+| HT-12 | Como sistema, quiero mostrar páginas de error amigables, para no exponer detalles técnicos. | • Existen páginas para error 404, 403 y 500 (`errorhandler` de Flask).<br>• Los mensajes están en español y no muestran trazas de Python.<br>• La aplicación no se ejecuta en modo `debug` en producción. |
+| HT-13 | Como equipo de desarrollo, queremos una copia de seguridad diaria de la base de datos, para no perder información. | • Hay un script de respaldo (`mysqldump`) documentado.<br>• Se explica cómo restaurar una copia. |
+| HT-14 | Como equipo de desarrollo, queremos probar las reglas de negocio principales, para detectar errores a tiempo. | • Hay pruebas con `pytest` para stock, cálculo de totales, cancelación y cambio de estados.<br>• Las pruebas se ejecutan con un solo comando (`pytest`). |
 
 ---
 
@@ -305,4 +305,4 @@ erDiagram
 
 **Estados iniciales de ESTADO_PEDIDO:** 1 Pendiente · 2 Confirmado · 3 En preparación · 4 Enviado · 5 Entregado · 6 Cancelado.
 
-> El detalle completo de atributos, tipos y restricciones está en [`docs/LU.docx`](docs/LU.docx).
+> El detalle completo de atributos, tipos y restricciones está en [`docs/Relaciones_y_Cardinalidades.docx`](docs/Relaciones_y_Cardinalidades.docx).
